@@ -1,0 +1,44 @@
+version: "3"
+
+networks:
+  gitea-network:
+    external: false
+
+services:
+  gitea:
+    image: docker.gitea.com/gitea:1.24.3
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      - gitea-network
+    volumes:
+      - ./data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+  mirror-to-gitea:
+    image: jaedle/mirror-to-gitea:latest
+    container_name: mirror-to-gitea
+    environment:
+      # Loaded from .env file
+      - GITHUB_USERNAME=${GITHUB_USERNAME}
+      - GITEA_TOKEN=${GITEA_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      # Standard environment variables for minimally configuring the mirror-to-gitea container
+      - GITEA_URL=http://gitea:3000
+      - MIRROR_PRIVATE_REPOSITORIES=true
+      - MIRROR_ISSUES=false
+      - MIRROR_STARRED=false
+      - MIRROR_ORGANIZATIONS=false
+      # Sync once per day since the raspberry pi is not very powerful
+      - DELAY=86400
+    restart: always
+    networks:
+      - gitea-network
+    depends_on:
+      - gitea

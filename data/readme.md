@@ -1,0 +1,1 @@
+This folder will be used to sync all the repositories to and store them in a SQLite3 database (described in docs https://docs.gitea.com/next/installation/install-with-docker)
