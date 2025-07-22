@@ -6,9 +6,11 @@ This repository uses Gitea instead of other open source solutions like Gitlab be
 
 # Installation
 
-1. Comment out the container for `mirror-to-gitea` as it will need the a toke from gitea to work.
-2. Run the docker compose `docker compose up --build -d`
-3. Create an account on `http://localhost:3000`
-4. Create an API token in `Settings > Application > Generate new token`
-5. Uncomment `mirror-to-gitea` and fill in the credentials
-6. Run the `docker compose up --build -d` command again
+- Comment out the container for `mirror-to-gitea` as it will need the a token from gitea to work.
+- Run the docker compose `docker compose up --build -d`
+- Create an account on `http://localhost:3000`
+- Create an API token in `Settings > Application > Generate new token`, the token only needs `read` access to **users** and `write` access to **repositories**
+- Generate a token for your Github account in `Settings > Developer settings > Personal access tokens > Fine-grained tokens` , this token only needs `read` access to **repositories** it is good to keep these tokens minimal to prevent disaster when a third-party gets access to your token.
+- Create a `.env` file from the base template of the `.env.example` file and fill in your Github username, Github Access token and Gitea API token
+- Uncomment `mirror-to-gitea` and fill in the credentials
+- Run the `docker compose up --build -d` command again
