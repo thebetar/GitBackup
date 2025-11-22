@@ -16,7 +16,7 @@ services:
     networks:
       - gitea-network
     volumes:
-      - ./data:/data
+      - /home/larsvonk/Projects/git-backup/data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
